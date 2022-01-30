@@ -2,45 +2,97 @@
 /* eslint-disable no-console */
 /* eslint-disable react/destructuring-assignment */
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import useDoubleClick from 'use-double-click';
 import styles from './TodoItems.module.css';
 // import PropTypes from 'prop-types';
 
-class TodoItems extends React.Component {
-  render() {
-    const next = this.props;
-    const { completed, id, title } = this.props.todo;
-    const completedStyle = {
-      fontStyle: 'italic',
-      color: '#595959',
-      opacity: 0.4,
-      textDecoration: 'line-through',
-    };
-    return (
-      <li className={styles.item}>
+const TodoItems = (props) => {
+  const { handleChangesProps, deleteing, todo } = props;
+
+  const [editing, setEdit] = useState(false);
+  const handleEditing = () => {
+    setEdit(true);
+  };
+
+  // const handle = () => {
+  //   console.log('');
+  // };
+
+  // const handleClick = (e) => {
+  //   switch (e.detail) {
+  //     case 1:
+  //       console.log('click');
+  //       console.log(e.detail);
+  //       break;
+  //     case 2:
+  //       console.log('double click');
+  //       console.log(e.detail);
+  //       break;
+  //     case 3:
+  //       console.log('triple click');
+  //       console.log(e.detail);
+  //       break;
+  //     default:
+  //       console.log('default');
+  //   }
+  // };
+
+  const completedStyle = {
+    fontStyle: 'italic',
+    color: '#595959',
+    opacity: 0.4,
+    textDecoration: 'line-through',
+  };
+
+  const buttonRef = useRef();
+
+  useDoubleClick({
+    onSingleClick: (e) => {
+      console.log(e, 'single click');
+    },
+    onDoubleClick: () => {
+      handleEditing();
+    },
+    ref: buttonRef,
+    latency: 250,
+  });
+
+  const viewMode = {};
+  const editMode = {};
+
+  if (editing) viewMode.display = 'none';
+  else editMode.display = 'none';
+
+  return (
+    <li className={styles.item}>
+      <div
+        ref={buttonRef}
+      >
         <input
           type="checkbox"
-          checked={completed}
+          checked={todo.completed}
           className={styles.checkbox}
-          onChange={() => next.handleChangesProps(id)}
+          onChange={() => handleChangesProps(todo.id)}
         />
         <button
           type="button"
-          onClick={() => next.deleteing(id)}
+          onClick={() => deleteing(todo.id)}
         >
           Delete
         </button>
-        <span style={completed ? completedStyle : null}>
-          {title}
+        <span style={todo.completed ? completedStyle : null}>
+          {todo.title}
         </span>
-      </li>
-    );
-  }
-}
+      </div>
+      <input type="text" className={styles.textInput} />
+    </li>
+  );
+};
 
 TodoItems.propTypes = {
   todo: PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     title: PropTypes.string,
     completed: PropTypes.bool,
   }).isRequired,
