@@ -8,7 +8,7 @@ import styles from './TodoItems.module.css';
 // import PropTypes from 'prop-types';
 
 const TodoItems = (props) => {
-  const { handleChangesProps, deleteing, todo } = props;
+  const { handleChangesProps, deleteing, todo, } = props;
 
   const [editing, setEdit] = useState(false);
   const handleEditing = () => {
@@ -68,6 +68,7 @@ const TodoItems = (props) => {
     <li className={styles.item}>
       <div
         ref={buttonRef}
+        style={viewMode}
       >
         <input
           type="checkbox"
@@ -85,7 +86,15 @@ const TodoItems = (props) => {
           {todo.title}
         </span>
       </div>
-      <input type="text" className={styles.textInput} />
+      <input
+        type="text"
+        value={todo.title}
+        style={editMode}
+        className={styles.textInput}
+        onChange={(e) => {
+          console.log(e.target.value, todo.id);
+        }}
+      />
     </li>
   );
 };
