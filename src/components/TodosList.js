@@ -14,6 +14,7 @@ class TodosList extends React.Component {
             todo={todo}
             handleChangesProps={mike.handleChangesProps}
             deleteing={mike.deleteing}
+            setUpdate={mike.setUpdate}
           />
         ))}
       </ul>
@@ -31,6 +32,7 @@ TodosList.propTypes = {
   ).isRequired,
   handleChangesProps: PropTypes.func.isRequired,
   deleteing: PropTypes.func.isRequired,
+  setUpdate: PropTypes.func.isRequired,
 };
 
 export default TodosList;
