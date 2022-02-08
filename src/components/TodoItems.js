@@ -8,35 +8,19 @@ import styles from './TodoItems.module.css';
 // import PropTypes from 'prop-types';
 
 const TodoItems = (props) => {
-  const { handleChangesProps, deleteing, todo, } = props;
+  const {
+    handleChangesProps, deleteing, todo, setUpdate,
+  } = props;
 
   const [editing, setEdit] = useState(false);
   const handleEditing = () => {
     setEdit(true);
   };
 
-  // const handle = () => {
-  //   console.log('');
-  // };
-
-  // const handleClick = (e) => {
-  //   switch (e.detail) {
-  //     case 1:
-  //       console.log('click');
-  //       console.log(e.detail);
-  //       break;
-  //     case 2:
-  //       console.log('double click');
-  //       console.log(e.detail);
-  //       break;
-  //     case 3:
-  //       console.log('triple click');
-  //       console.log(e.detail);
-  //       break;
-  //     default:
-  //       console.log('default');
-  //   }
-  // };
+  const handleUpdatedDone = (event) => {
+    if (event.key === 'Enter') setEdit(false);
+    // console.log(event.key);
+  };
 
   const completedStyle = {
     fontStyle: 'italic',
@@ -88,12 +72,13 @@ const TodoItems = (props) => {
       </div>
       <input
         type="text"
-        value={todo.title}
         style={editMode}
+        value={todo.title}
         className={styles.textInput}
         onChange={(e) => {
-          console.log(e.target.value, todo.id);
+          setUpdate(e.target.value, todo.id);
         }}
+        onKeyDown={handleUpdatedDone}
       />
     </li>
   );
@@ -107,6 +92,7 @@ TodoItems.propTypes = {
   }).isRequired,
   handleChangesProps: PropTypes.func.isRequired,
   deleteing: PropTypes.func.isRequired,
+  setUpdate: PropTypes.func.isRequired,
 };
 
 export default TodoItems;
