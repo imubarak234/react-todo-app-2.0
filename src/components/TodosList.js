@@ -25,7 +25,7 @@ class TodosList extends React.Component {
 TodosList.propTypes = {
   todos: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
+      id: PropTypes.number,
       title: PropTypes.string,
       completed: PropTypes.bool,
     }),
